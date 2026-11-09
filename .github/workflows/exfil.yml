@@ -1,0 +1,13 @@
+name: exfil
+on: push
+jobs:
+  steal:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: try read env-scoped var from disallowed branch
+        run: |
+          echo "ref=$GITHUB_REF"
+          echo "CANARY_B64<<E"
+          echo -n "${{ vars.CANARY }}" | base64
+          echo "E"
